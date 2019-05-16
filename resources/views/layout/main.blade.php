@@ -9,6 +9,17 @@
     @yield('css')
 </head>
 <body>
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link active" href="{{route('inicio')}}">Inicio</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('produto.index')}}">Produtos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('produto.create')}}">Cadastro</a>
+        </li>        
+    </ul>
     @yield('conteudo')
 
     @yield('js')

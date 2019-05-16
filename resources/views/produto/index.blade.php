@@ -13,7 +13,15 @@
                 </tr>
             </thead>
             <tbody>
-               
+               @foreach($produtos as $p)
+               <tr>
+                   <td>{{$p->id}}</td>
+                   <td>{{$p->nome}}</td>
+                   <td>{{$p->valor}}</td>
+                   <td>{{$p->estoque}}</td>
+               </tr>
+               @endforeach
+
             </tbody>
         </table>
     </div>

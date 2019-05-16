@@ -9,7 +9,8 @@ class ProdutoController extends Controller
 {    
     public function index()
     {
-        return view('produto.index');
+        $produtos = Produto::all();
+        return view('produto.index', compact(['produtos']));
     }
 
     public function create()
@@ -18,7 +19,14 @@ class ProdutoController extends Controller
     }
 
     public function store(Request $request)
-    {
+    {        
+        $regras = [
+            'nome' => 'required|min:3|max:50|unique:produtos,nome',
+            'valor' => 'required',
+            'estoque' => 'required'
+        ];
+
+        $request->validate($regras);
         
         $p = new Produto();
         $p->nome = $request->input('nome');
