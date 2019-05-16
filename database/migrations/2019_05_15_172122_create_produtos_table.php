@@ -18,12 +18,10 @@ class CreateProdutosTable extends Migration
             $table->string('nome', 150);
             $table->decimal('valor', 8,2);
             $table->integer('estoque')->unsigned();
-            $table->bigInteger('categoria_id')->unsigned();
+            
             $table->timestamps();
 
-            $table->foreign('categoria_id')
-                ->references('id')->on('categorias')
-                ->onDelete('cascade');
+            
         });
     }
 

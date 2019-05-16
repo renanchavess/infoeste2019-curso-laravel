@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layout.main')
 
 @section('conteudo')
 <div class="row">
@@ -13,14 +13,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($produtos as $p)
-                    <td>{{$p->id<}}/td>
-                    <td>{{$p->nome}}</td>
-                    <td>{{$p->valor}}</td>
-                    <td>{{$p->estoque}}</td>
-                @endforeach
+               
             </tbody>
         </table>
     </div>
 </div>
+@endsection
+
+@section('js')
 @endsection

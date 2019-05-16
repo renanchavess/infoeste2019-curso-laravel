@@ -6,36 +6,33 @@ use App\produto;
 use Illuminate\Http\Request;
 
 class ProdutoController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+{    
     public function index()
     {
-        //
+        return view('produto.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('produto.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        
+        $p = new Produto();
+        $p->nome = $request->input('nome');
+        $p->valor = $request->input('valor');
+        $p->estoque = $request->input('estoque');
+
+        
+        if($p->save())
+        {
+            return redirect('/produto');
+        }
+        else{
+            return view('produto.create');
+        }
     }
 
     /**
