@@ -9,7 +9,7 @@ class ProdutoController extends Controller
 {    
     public function index()
     {
-        $produtos = Produto::all();
+        $produtos = Produto::paginate(5);
         return view('produto.index', compact(['produtos']));
     }
 
@@ -43,48 +43,61 @@ class ProdutoController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\produto  $produto
-     * @return \Illuminate\Http\Response
-     */
-    public function show(produto $produto)
+    public function edit(int $id)
     {
-        //
+        $produto = Produto::find($id);
+
+        if(isset($produto))
+            return view('produto.edit', compact(['produto']));
+        else
+            return redirect(route('produto.index'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\produto  $produto
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(produto $produto)
+    public function update(Request $request, int $id)
     {
-        //
+        $produto = Produto::find($id);
+
+        if(isset($produto))
+        {
+            $regras = [
+                'nome' => 'required|min:3|max:50|unique:produtos,nome,'.$id,
+                'valor' => 'required',
+                'estoque' => 'required'
+            ];
+    
+            $request->validate($regras);
+            
+            $produto->nome = $request->input('nome');
+            $produto->valor = $request->input('valor');
+            $produto->estoque = $request->input('estoque');
+
+            $produto->save();
+        }
+
+        return redirect(route('produto.index'));
+        
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\produto  $produto
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, produto $produto)
+
+    public function destroy(int $id)
     {
-        //
+        $produto = Produto::find($id);
+
+        if(isset($produto))
+            $produto->delete();
+
+        return redirect(route('produto.index'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\produto  $produto
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(produto $produto)
+    public function fotos(int $id)
     {
-        //
+        $produto = Produto::find($id);
+
+        if(isset($produto))
+        {
+            return view('produto.fotos', compact(['produto']));
+        }
+
+        return redirect(route('produto.index'));
     }
 }
