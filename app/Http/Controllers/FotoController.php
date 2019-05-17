@@ -3,83 +3,55 @@
 namespace App\Http\Controllers;
 
 use App\Foto;
+use App\produto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FotoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function create(int $produto_id)
     {
-        //
+        $produto = Produto::find($produto_id);
+
+        if(isset($produto))
+        {
+            return view('foto.create', compact(['produto']));
+        }
+
+        return redirect('/produto');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $produto = Produto::find($request->input('produto_id'));
+
+        if(!empty($produto))
+        {
+            $path =  $request->file('arquivo')->store('imagens/produtos', 'public');
+
+            $foto = new Foto();        
+            $foto->path = $path;
+            $foto->produto_id = $produto->id;
+           
+            $foto->save();
+        }
+
+        return redirect("/produto/$produto->id/fotos");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Foto  $foto
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Foto $foto)
+    public function destroy(int $id)
     {
-        //
-    }
+        $foto = Foto::find($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Foto  $foto
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Foto $foto)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Foto  $foto
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Foto $foto)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Foto  $foto
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Foto $foto)
-    {
-        //
+        if(isset($foto))
+        {
+            $produto_id = $foto->produto_id;            
+            unlink('storage/'.$foto->path);
+            $foto->delete();
+            
+            return redirect("/produto/$produto_id/fotos");
+        }
+        else
+            return redirect('/produto');
     }
 }
