@@ -6,6 +6,7 @@
         <a href="{{route('foto.create', [$produto->id])}}" class="btn btn-success">Novo</a>
     </div>
 </div>
+<h1>{{$produto->name}}</h1>
 <div class="row">
     @foreach($produto->fotos as $foto)
         <div class="card">

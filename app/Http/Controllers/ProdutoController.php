@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class ProdutoController extends Controller
 {    
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $produtos = Produto::paginate(5);
@@ -15,7 +20,7 @@ class ProdutoController extends Controller
 
     public function create()
     {
-        return view('produto.create');
+        return view('produto.create');        
     }
 
     public function store(Request $request)

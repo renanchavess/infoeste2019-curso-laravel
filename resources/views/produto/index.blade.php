@@ -21,7 +21,8 @@
                    <td>{{$p->valor}}</td>
                    <td>{{$p->estoque}}</td>
                    <td>
-                       <a href="{{route('produto.edit', ['id' => $p->id])}}" class="btn btn-warning">Editar</a>
+                       <a href="{{route('produto.edit', ['id' => $p->id])}}" 
+                           class="btn btn-warning">Editar</a>
                     </td>
                     <td>
                        <form action="{{route('produto.destroy', [$p->id])}}" method="POST">
@@ -30,7 +31,10 @@
                             <button type="submit" class="btn btn-danger">Excluir</button>
                        </form>
                     </td>
-                    <td><a href="{{route('produto.fotos', [$p->id])}}" class="btn btn-light">Fotos</a></td>
+                    <td>
+                        <a href="{{route('produto.fotos', [$p->id])}}" 
+                            class="btn btn-light">Fotos</a>
+                    </td>
                </tr>
                @endforeach
 
